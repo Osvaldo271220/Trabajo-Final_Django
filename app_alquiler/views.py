@@ -3,6 +3,11 @@ from django.utils import timezone
 from .models import Videojuego, Plataforma, Genero, Alquiler
 from .forms import VideojuegoForm, AlquilerForm
 
+def tempplatgen(request):
+    plataformas = Plataforma.objects.all()
+    generos = Genero.objects.all()
+    return render(request, 'genero-plataforma.html', {'plataformas': plataformas, 'generos': generos})
+
 def registrar_videojuego(request):
     if request.method == 'POST':
         form = VideojuegoForm(request.POST)
@@ -11,7 +16,7 @@ def registrar_videojuego(request):
             return redirect('lista_videojuegos')
     else:
         form = VideojuegoForm()
-    return render(request, 'app_alquiler/registrar_videojuego.html', {'form': form})
+    return render(request, 'juegos.html', {'form': form})
 
 def registrar_alquiler(request):
     if request.method == 'POST':
@@ -68,8 +73,17 @@ def finalizar_alquiler(request, alquiler_id):
 
 def lista_videojuegos(request):
     videojuegos = Videojuego.objects.all()
-    return render(request, 'app_alquiler/lista_videojuegos.html', {'videojuegos': videojuegos})
+    plataformas = Plataforma.objects.all()
+    generos = Genero.objects.all()
+    return render(request, 'juegos.html', {'videojuegos': videojuegos, 'plataformas': plataformas, 'generos': generos})
 
 def lista_alquileres(request):
     alquileres = Alquiler.objects.all()
-    return render(request, 'app_alquiler/lista_alquileres.html', {'alquileres': alquileres})
+    plataformas = Plataforma.objects.all()
+    videojuegos = Videojuego.objects.all()
+    return render(request, 'alquiler.html', {'alquileres': alquileres, 'plataformas': plataformas, 'videojuegos': videojuegos})
+
+def listar_gen_cat(request):
+    plataformas = Plataforma.objects.all()
+    generos = Genero.objects.all()
+    return render(request, 'genero-paltaforma.html', {'plataformas': plataformas, 'generos': generos})

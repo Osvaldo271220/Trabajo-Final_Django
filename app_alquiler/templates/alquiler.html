@@ -10,14 +10,14 @@
                 <div class="card-body">
                     <form action="", method="POST">{% csrf_token %}
                         <div class="form-group py-2">
-                            <input type="text" name="cliente" id="cliente" class="form-control" placeholder="cliente" required>
+                            <input type="text" name="cliente" id="cliente" class="form-control" placeholder="Cliente" required>
                         </div>
                         <div class="form-group py-2">
-                            <label for="plataforma">Plataforma:</label>
+                            <label for="juego">Nombre del juego:</label>
                             <select name="juego" id="juego" class="form-control">
                                 <option value="">Juego</option>
-                                {% for juego in juegos %}
-                                    <option value="{{ juego.id }}">{{ juego.titulo }}</option>
+                                {% for videojuego in videojuegos %}
+                                    <option value="{{ videojuego.id }}">{{ videojuego.titulo }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -38,7 +38,7 @@
         </div>
         <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
             <div class="table-responsive">
-                <h1>Juego alquilados</h1>
+                <h1>Juegos alquilados</h1>
                 <table class="table table-striped table-bordered table-hover py-2">
                     <thead>
                         <tr>

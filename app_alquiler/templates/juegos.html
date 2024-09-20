@@ -8,16 +8,15 @@
             <h2>Nuevo Juego:</h2>
             <div class="card">
                 <div class="card-body">
-                    <form action="", method="POST">{% csrf_token %}
+                    <form action="{% url 'registrar_videojuego' %}", method="POST">{% csrf_token %}
                         <div class="form-group py-2">
                             <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Título" required>
                         </div>
                         <div class="form-group py-2">
                             <label for="plataforma">Plataforma:</label>
-                            <select name="plataforma" id="plataforma" class="form-control">
-                                <option value="">Plataforma</option>
+                            <select name="plataforma" id="plataforma" class="form-control", aria-placeholder="Plataforma">
                                 {% for plataforma in plataformas %}
-                                    <option value="{{ plataforma.id }}">{{ plataforma.titulo }}</option>
+                                    <option value="{{ plataforma.id }}">{{ plataforma.nombre }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -67,19 +66,16 @@
                             <th>Plataforma</th>
                             <th>Género</th>
                             <th>Stock</th>
-                            <th colspan="2">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for Videojuego in Videojuegos %}
+                        {% for videojuego in videojuegos %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ Videojuego.titulo }}</td>
-                                <td>{{ Videojuego.plataforma.titulo }}</td>
-                                <td>{{ Videojuego.genero.nombre }}</td>
-                                <td>{{ Videojuego.stock }}</td>
-                                <td><a href="" class="btn btn-info">Editar</a></td>
-                                <td><a href="" class="btn btn-danger">Eliminar</a></td>
+                                <td>{{ videojuego.titulo }}</td>
+                                <td>{{ videojuego.plataforma.nombre }}</td>
+                                <td>{{ videojuego.genero.nombre }}</td>
+                                <td>{{ videojuego.stock }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
