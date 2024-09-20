@@ -35,18 +35,6 @@ def registrar_alquiler(request):
         form = AlquilerForm()
     return render(request, 'app_alquiler/registrar_alquiler.html', {'form': form})
 
-def lista_videojuegos(request):
-    plataformas = Plataforma.objects.all()
-    generos = Genero.objects.all()
-    videojuegos = Videojuego.objects.all()
-
-    if request.GET.get('plataforma'):
-        videojuegos = videojuegos.filter(plataforma__id=request.GET.get('plataforma'))
-    if request.GET.get('generosel'):
-        videojuegos = videojuegos.filter(genero__id=request.GET.get('generosel'))
-
-    return render(request, 'juegos.html', {'videojuegos': videojuegos, 'plataformas': plataformas, 'generos': generos})
-
 def finalizar_alquiler(request, alquiler_id):
     alquiler = get_object_or_404(Alquiler, id=alquiler_id)
     if request.method == 'POST':
@@ -63,7 +51,14 @@ def finalizar_alquiler(request, alquiler_id):
 
 def todoslosjuegos(request):
     videojuegos = Videojuego.objects.all()
-    return render(request, 'juegos.html', {'videojuegos': videojuegos})
+    plataformas = Plataforma.objects.all()
+    generos = Genero.objects.all()
+    if request.GET.get('plataforma'):
+        videojuegos = videojuegos.filter(plataforma__id=request.GET.get('plataforma'))
+    if request.GET.get('generosel'):
+        videojuegos = videojuegos.filter(genero__id=request.GET.get('generosel'))
+    
+    return render(request, 'juegos.html', {'videojuegos': videojuegos, 'plataformas': plataformas, 'generos': generos})
 
 def lista_alquileres(request):
     alquileres = Alquiler.objects.all()
@@ -71,7 +66,3 @@ def lista_alquileres(request):
     videojuegos = Videojuego.objects.all()
     return render(request, 'alquiler.html', {'alquileres': alquileres, 'plataformas': plataformas, 'videojuegos': videojuegos})
 
-def listar_gen_cat(request):
-    plataformas = Plataforma.objects.all()
-    generos = Genero.objects.all()
-    return render(request, 'genero-paltaforma.html', {'plataformas': plataformas, 'generos': generos})

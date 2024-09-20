@@ -16,7 +16,7 @@ class Videojuego(models.Model):
     titulo = models.CharField(max_length=200)
     plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE)
     genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
-    stock = models.IntegerField()
+    stock = models.PositiveIntegerField()
 
     def __str__(self):
         return self.titulo
