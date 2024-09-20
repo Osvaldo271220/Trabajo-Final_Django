@@ -45,18 +45,22 @@
                 <h1>Listado de Juegos</h1>
                 <div class="form-group py-2">
                     <h2>Filtrar por:</h2>
-                    <label for="plataforma">Plataforma:</label>
-                    <select name="plataforma" id="plataforma" class="form-control">
-                        {% for plataforma in plataformas %}
-                            <option value="{{ plataforma.id }}">{{ plataforma.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="generosel">Género:</label>
-                    <select name="generosel" id="generosel" class="form-control">
-                        {% for genero in generos %}
-                            <option value="{{ genero.id }}">{{ genero.nombre }}</option>
-                        {% endfor %}
-                    </select>
+                    <form action="" method="GET">
+                        <label for="plataforma">Plataforma:</label>
+                        <select name="plataforma" id="plataforma" class="form-control">
+                            {% for plataforma in plataformas %}
+                                <option value="{{ plataforma.id }}">{{ plataforma.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="generosel">Género:</label>
+                        <select name="generosel" id="generosel" class="form-control">
+                            {% for genero in generos %}
+                                <option value="{{ genero.id }}">{{ genero.nombre }}</option>
+                            {% endfor %}
+                        </select><br>
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                        <a href="{% url 'todos' %}" class="btn btn-primary" role="button">Mostrar todos</a>
+                    </form>
                 </div>
                 <table class="table table-striped table-bordered table-hover py-2">
                     <thead>
