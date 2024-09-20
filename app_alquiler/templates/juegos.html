@@ -1,0 +1,90 @@
+{% extends "./base.html" %}
+
+{% block title %} Juegos {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+            <h2>Nuevo Juego:</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form action="", method="POST">{% csrf_token %}
+                        <div class="form-group py-2">
+                            <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Título" required>
+                        </div>
+                        <div class="form-group py-2">
+                            <label for="plataforma">Plataforma:</label>
+                            <select name="plataforma" id="plataforma" class="form-control">
+                                <option value="">Plataforma</option>
+                                {% for plataforma in plataformas %}
+                                    <option value="{{ plataforma.id }}">{{ plataforma.titulo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group py-2">
+                            <label for="genero">Género:</label>
+                            <select name="genero" id="genero" class="form-control">
+                                <option value="">Género</option>
+                                {% for genero in generos %}
+                                    <option value="{{ genero.id }}">{{ genero.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group py-2">
+                            <label for="stock">Stock:</label>
+                            <input type="number" name="stock" id="stock" class="form-control" min="1" max="10" step="1" required value="0">
+                        </div>
+                        <div class="form-group py-2">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+            <div class="table-responsive">
+                <h1>Listado de Juegos</h1>
+                <div class="form-group py-2">
+                    <h2>Filtrar por:</h2>
+                    <label for="plataforma">Plataforma:</label>
+                    <select name="plataforma" id="plataforma" class="form-control">
+                        {% for plataforma in plataformas %}
+                            <option value="{{ plataforma.id }}">{{ plataforma.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="generosel">Género:</label>
+                    <select name="generosel" id="generosel" class="form-control">
+                        {% for genero in generos %}
+                            <option value="{{ genero.id }}">{{ genero.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <table class="table table-striped table-bordered table-hover py-2">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Título</th>
+                            <th>Plataforma</th>
+                            <th>Género</th>
+                            <th>Stock</th>
+                            <th colspan="2">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for Videojuego in Videojuegos %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ Videojuego.titulo }}</td>
+                                <td>{{ Videojuego.plataforma.titulo }}</td>
+                                <td>{{ Videojuego.genero.nombre }}</td>
+                                <td>{{ Videojuego.stock }}</td>
+                                <td><a href="" class="btn btn-info">Editar</a></td>
+                                <td><a href="" class="btn btn-danger">Eliminar</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

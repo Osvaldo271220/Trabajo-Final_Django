@@ -1,0 +1,45 @@
+{% extends "./base.html" %}
+
+{% block title %} Editar juego {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md4 offset-md-">
+            <h2>Editar juego:</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="", method="POST">{% csrf_token %}
+                            <div class="form-group py-2">
+                                <input type="text" name="titulo" id="titulo" value="{{Videojuego.titulo}}" class="form-control" placeholder="Título" required>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="plataforma">Plataforma:</label>
+                                <select name="plataforma" id="plataforma" class="form-control">
+                                    <option value="">Plataforma</option>
+                                    {% for plataforma in plataformas %}
+                                        <option value="{{ plataforma.id }}">{{ plataforma.titulo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="genero">Género:</label>
+                                <select name="genero" id="genero" class="form-control">
+                                    <option value="">Género</option>
+                                    {% for genero in generos %}
+                                        <option value="{{ genero.id }}">{{ genero.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group py-2">
+                                <label for="stock">Stock:</label>
+                                <input type="number" name="stock" id="stock" value="{{Videojuego.stock}}" class="form-control" min="1" max="10" step="1" required value="0">
+                            </div>
+                            <div class="form-group py-2">
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "./base.html" %}
+
+{% block title %} Alquiler {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+            <h2>Alquiler de juegos:</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form action="", method="POST">{% csrf_token %}
+                        <div class="form-group py-2">
+                            <input type="text" name="cliente" id="cliente" class="form-control" placeholder="cliente" required>
+                        </div>
+                        <div class="form-group py-2">
+                            <label for="plataforma">Plataforma:</label>
+                            <select name="juego" id="juego" class="form-control">
+                                <option value="">Juego</option>
+                                {% for juego in juegos %}
+                                    <option value="{{ juego.id }}">{{ juego.titulo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group py-2">
+                            <label for="fecha_alquiler">Fecha de alquiler:</label>
+                            <input type="date" name="fecha_alquiler" id="fecha_alquiler" class="form-control" required>
+                        </div>
+                        <div class="form-group py-2">
+                            <label for="fecha_devolucion">Fecha de devolución:</label>
+                            <input type="date" name="fecha_devolucion" id="fecha_devolucion" class="form-control" >
+                        </div>
+                        <div class="form-group py-2">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+            <div class="table-responsive">
+                <h1>Juego alquilados</h1>
+                <table class="table table-striped table-bordered table-hover py-2">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Juego</th>
+                            <th>Fecha de alquiler</th>
+                            <th>Fecha de devolución</th>
+                            <th>Devolución</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for alquiler in alquileres %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ alquiler.cliente }}</td>
+                                <td>{{ alquiler.videojuego }}</td>
+                                <td>{{ alquiler.fecha_alquiler }}</td>
+                                <td>{{ alquiler.fecha_devolucion }}</td>
+                                <td><a href="" class="btn btn-info">Registrar devolución</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
