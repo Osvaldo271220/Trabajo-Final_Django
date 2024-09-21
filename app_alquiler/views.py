@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Videojuego, Plataforma, Genero, Alquiler
 from .forms import VideojuegoForm, AlquilerForm
+import datetime
 
 def tempplatgen(request):
     plataformas = Plataforma.objects.all()
@@ -13,41 +14,36 @@ def registrar_videojuego(request):
         form = VideojuegoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('lista_videojuegos')
+            return redirect('todos')
     else:
         form = VideojuegoForm()
     return render(request, 'juegos.html', {'form': form})
 
 def registrar_alquiler(request):
-    if request.method == 'POST':
-        form = AlquilerForm(request.POST)
-        if form.is_valid():
-            alquiler = form.save(commit=False)
-            videojuego = alquiler.videojuego
-            if videojuego.stock > 0:
-                videojuego.stock -= 1
-                videojuego.save()
-                alquiler.save()
-                return redirect('lista_alquileres')
-            else:
-                form.add_error('videojuego', 'No hay stock disponible para este videojuego.')
-    else:
-        form = AlquilerForm()
-    return render(request, 'app_alquiler/registrar_alquiler.html', {'form': form})
-
-def finalizar_alquiler(request, alquiler_id):
-    alquiler = get_object_or_404(Alquiler, id=alquiler_id)
-    if request.method == 'POST':
-        alquiler.fecha_devolucion = timezone.now()
-        alquiler.save()
-        
-        videojuego = alquiler.videojuego
-        videojuego.stock += 1
-        videojuego.save()
-        
-        return redirect('lista_alquileres')
+    cliente = request.POST['cliente']
+    videojuego_id = request.POST['juego']
+    fecha_alquiler = datetime.datetime.now()
     
-    return render(request, 'app_alquiler/finalizar_alquiler.html', {'alquiler': alquiler})
+    videojuego = Videojuego.objects.get(id=videojuego_id)
+    videojuego.stock -= 1
+    videojuego.save()
+    
+    alquiler = Alquiler.objects.create(cliente=cliente, videojuego=videojuego, fecha_alquiler=fecha_alquiler)
+    
+    return redirect('lista_alquileres')
+         
+def finalizar_alquiler(request, pk):
+    print(f"PK recibido: {pk}")  # Esto imprimirá el pk en la consola
+    alquiler = get_object_or_404(Alquiler, pk=pk)
+    
+    alquiler.fecha_devolucion = timezone.now()
+    alquiler.save()
+        
+    videojuego = alquiler.videojuego
+    videojuego.stock += 1
+    videojuego.save()
+        
+    return redirect('lista_alquileres')  
 
 def todoslosjuegos(request):
     videojuegos = Videojuego.objects.all()

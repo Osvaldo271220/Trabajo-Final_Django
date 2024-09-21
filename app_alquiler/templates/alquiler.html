@@ -8,26 +8,19 @@
             <h2>Alquiler de juegos:</h2>
             <div class="card">
                 <div class="card-body">
-                    <form action="", method="POST">{% csrf_token %}
+                    <form action="{% url 'registrar_alquiler' %}" method="POST">
+                        {% csrf_token %}
                         <div class="form-group py-2">
                             <input type="text" name="cliente" id="cliente" class="form-control" placeholder="Cliente" required>
                         </div>
                         <div class="form-group py-2">
                             <label for="juego">Nombre del juego:</label>
                             <select name="juego" id="juego" class="form-control">
-                                <option value="">Juego</option>
+                                <option value="">Selecciona un juego</option>
                                 {% for videojuego in videojuegos %}
                                     <option value="{{ videojuego.id }}">{{ videojuego.titulo }}</option>
                                 {% endfor %}
                             </select>
-                        </div>
-                        <div class="form-group py-2">
-                            <label for="fecha_alquiler">Fecha de alquiler:</label>
-                            <input type="date" name="fecha_alquiler" id="fecha_alquiler" class="form-control" required>
-                        </div>
-                        <div class="form-group py-2">
-                            <label for="fecha_devolucion">Fecha de devolución:</label>
-                            <input type="date" name="fecha_devolucion" id="fecha_devolucion" class="form-control" >
                         </div>
                         <div class="form-group py-2">
                             <button type="submit" class="btn btn-success">Guardar</button>
@@ -36,6 +29,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
             <div class="table-responsive">
                 <h1>Juegos alquilados</h1>
@@ -47,7 +41,7 @@
                             <th>Juego</th>
                             <th>Fecha de alquiler</th>
                             <th>Fecha de devolución</th>
-                            <th>Devolución</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,10 +49,22 @@
                             <tr>
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ alquiler.cliente }}</td>
-                                <td>{{ alquiler.videojuego }}</td>
+                                <td>{{ alquiler.videojuego.titulo }}</td>
                                 <td>{{ alquiler.fecha_alquiler }}</td>
-                                <td>{{ alquiler.fecha_devolucion }}</td>
-                                <td><a href="" class="btn btn-info">Registrar devolución</a></td>
+                                <td>
+                                    {% if alquiler.fecha_devolucion %}
+                                        {{ alquiler.fecha_devolucion }}
+                                    {% else %}
+                                        Sin devolver
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if not alquiler.fecha_devolucion %}
+                                        <a href="{% url 'finalizar_alquiler' alquiler.pk %}" class="btn btn-info">Registrar devolución</a>
+                                    {% else %}
+                                        <button class="btn btn-secondary" disabled>Devuelto</button>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
